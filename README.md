@@ -1,264 +1,145 @@
-# Chassis de Testes Automatizados Web
+# Backoffice Front Automation
 
-Este projeto é um chassis completo para testes automatizados web utilizando TypeScript, Playwright e Page Objects, com cenários BDD para o site saucedemo.com.
+Repositório de testes automatizados front da plataforma do Backoffice utilizando TypeScript, Playwright e Page Objects, com suporte a cenários BDD.
 
-## 🚀 Tecnologias Utilizadas
+## Requisitos
 
-- **TypeScript** - Linguagem de programação
-- **Playwright** - Framework de automação de testes
-- **Cucumber** - Framework BDD (Behavior Driven Development)
-- **Page Object Model** - Padrão de design para testes
-- **Jest** - Framework de asserções
+Antes de começar, certifique-se de ter instalado:
 
-## 📁 Estrutura do Projeto
+- **Node.js** (versão 18 ou superior)
+- **npm** (geralmente vem com o Node.js)
+- **Git** (para clonar o repositório)
 
-```
-src/
-├── pages/                 # Page Objects
-│   ├── BasePage.ts       # Classe base para todas as páginas
-│   ├── LoginPage.ts      # Página de login
-│   ├── ProductsPage.ts   # Página de produtos
-│   ├── CartPage.ts       # Página do carrinho
-│   ├── CheckoutPage.ts   # Página de checkout
-│   ├── CheckoutOverviewPage.ts  # Página de resumo do checkout
-│   └── CheckoutCompletePage.ts  # Página de conclusão
-├── tests/                # Testes tradicionais
-│   ├── login.spec.ts     # Testes de login
-│   ├── products.spec.ts  # Testes de produtos
-│   └── checkout.spec.ts  # Testes de checkout
-├── features/             # Arquivos de feature BDD
-│   ├── login.feature     # Cenários de login
-│   └── cadastro.feature  # Cenários de cadastro/compra
-├── step-definitions/     # Step definitions BDD
-│   ├── login.steps.ts    # Steps de login
-│   └── cadastro.steps.ts # Steps de cadastro
-└── utils/                # Utilitários e helpers
-    ├── TestData.ts       # Dados de teste
-    ├── TestHelpers.ts    # Funções auxiliares
-    └── Assertions.ts     # Asserções customizadas
-```
+## Instalação
 
-## 🛠️ Instalação
+Siga os passos abaixo para instalar o projeto:
 
-1. **Clone o repositório:**
 ```bash
-git clone <url-do-repositorio>
-cd chassis_front_autom
-```
+# 1. Clone o repositório
+git clone <https://github.com/locavalcantesb/backoffice_front_automation.git>
+cd backoffice_front_automation
 
-2. **Instale as dependências:**
-```bash
+# 2. Instale as dependências do projeto
 npm install
-```
 
-3. **Instale os navegadores do Playwright:**
-```bash
+# 3. Instale os navegadores do Playwright
 npm run install:browsers
 ```
 
-## 🚀 Como Executar os Testes
+## Como Executar os Testes
 
-### Testes Tradicionais
+### Passo 1: Configurar os Dados de Teste
+
+Antes de executar os testes, configure os dados de teste no arquivo `src/utils/TestData.ts`:
+- URLs das páginas
+- Credenciais de usuários
+- Códigos de verificação de duas etapas
+
+### Passo 2: Executar os Testes
+
+#### Testes Tradicionais (Playwright)
 
 ```bash
 # Executar todos os testes
 npm test
 
-# Executar testes em modo visual (headed)
+# Executar testes em modo visual (com interface do navegador)
 npm run test:headed
 
-# Executar testes em modo debug
-npm run test:debug
-
-# Executar testes com interface gráfica
+# Executar testes com interface gráfica do Playwright
 npm run test:ui
-
-# Executar testes específicos
-npx playwright test login.spec.ts
-npx playwright test products.spec.ts
-npx playwright test checkout.spec.ts
 ```
 
-### Testes BDD
+#### Testes BDD (Cucumber)
 
 ```bash
-# Executar cenários BDD
-npx cucumber-js src/features/login.feature
-npx cucumber-js src/features/cadastro.feature
-
 # Executar todos os cenários BDD
 npx cucumber-js src/features/
+
+# Executar um arquivo de feature específico
+npx cucumber-js src/features/login.feature
 ```
 
-### Relatórios
+### Passo 3: Visualizar os Relatórios
 
 ```bash
-# Visualizar relatório HTML
+# Visualizar relatório HTML do Playwright
 npm run test:report
 ```
 
-## 📋 Cenários de Teste Implementados
+Os relatórios são salvos em:
+- **Playwright**: `playwright-report/` (abra o arquivo `index.html`)
+- **Cucumber**: `reports/cucumber-report.html`
+
+## Tecnologias Utilizadas
+
+- **TypeScript** - Linguagem de programação
+- **Playwright** - Framework de automação de testes
+- **Cucumber** - Framework BDD (Behavior Driven Development)
+- **Page Object Model** - Padrão de design para testes
+
+## Estrutura do Projeto
+
+```
+src/
+├── pages/                 # Page Objects
+│   ├── BasePage.ts       # Classe base para todas as páginas
+│   └── LoginPage.ts      # Página de login do Backoffice
+├── tests/                # Testes tradicionais
+│   ├── global-setup.ts   # Configuração global antes dos testes
+│   ├── global-teardown.ts # Limpeza global após os testes
+│   └── login.spec.ts     # Testes de login
+├── features/             # Arquivos de feature BDD
+│   └── login.feature     # Cenários de login em Gherkin
+├── step-definitions/     # Step definitions BDD
+│   └── login.steps.ts    # Implementação dos steps de login
+└── utils/                # Utilitários e helpers
+    ├── TestData.ts       # Dados de teste centralizados
+    └── Assertions.ts     # Asserções customizadas
+```
+
+## Cenários de Teste Implementados
 
 ### Login
-- ✅ Login com credenciais válidas
-- ✅ Login com usuário bloqueado
+- ✅ Login com credenciais válidas e verificação de duas etapas (2FA)
 - ✅ Login com credenciais inválidas
-- ✅ Login sem preencher usuário
-- ✅ Login sem preencher senha
-- ✅ Login sem preencher nenhum campo
-- ✅ Logout do sistema
 
-### Produtos
-- ✅ Verificar carregamento da página
-- ✅ Adicionar produto ao carrinho
-- ✅ Adicionar múltiplos produtos
-- ✅ Navegar para o carrinho
-- ✅ Ordenar produtos (A-Z, Z-A, preço)
-- ✅ Verificar produtos específicos
-- ✅ Logout através do menu
+## Comandos Úteis
 
-### Checkout
-- ✅ Finalizar compra com dados válidos
-- ✅ Finalizar compra sem dados obrigatórios
-- ✅ Cancelar checkout
-- ✅ Verificar resumo do pedido
-- ✅ Voltar para produtos após compra
+### Debugging
 
-## 🎯 Funcionalidades do Chassis
+```bash
+# Executar testes em modo debug
+npm run test:debug
 
-### Page Objects
-- **BasePage**: Classe base com métodos comuns
-- **LoginPage**: Gerenciamento da página de login
-- **ProductsPage**: Gerenciamento da página de produtos
-- **CartPage**: Gerenciamento do carrinho
-- **CheckoutPage**: Gerenciamento do checkout
-- **CheckoutOverviewPage**: Resumo do pedido
-- **CheckoutCompletePage**: Conclusão da compra
-
-### Utilitários
-- **TestData**: Dados de teste centralizados
-- **TestHelpers**: Funções auxiliares
-- **Assertions**: Asserções customizadas
-
-### Configurações
-- **playwright.config.ts**: Configuração do Playwright
-- **tsconfig.json**: Configuração do TypeScript
-- **package.json**: Dependências e scripts
-
-## 🔧 Configurações Avançadas
+# Visualizar traces de testes que falharam
+npx playwright show-trace test-results/[test-name]/trace.zip
+```
 
 ### Executar em Navegadores Específicos
 
 ```bash
-# Chrome
-npx playwright test --project=chromium
-
-# Firefox
-npx playwright test --project=firefox
-
-# Safari
-npx playwright test --project=webkit
-
-# Mobile
-npx playwright test --project="Mobile Chrome"
+npx playwright test --project=chromium  # Chrome
+npx playwright test --project=firefox   # Firefox
+npx playwright test --project=webkit    # Safari
 ```
 
-### Executar em Modo Headless
+### Executar Testes Específicos
 
 ```bash
-# Modo headless (padrão)
-npx playwright test
+# Executar um arquivo de teste específico
+npx playwright test login.spec.ts
 
-# Modo headed (com interface)
-npx playwright test --headed
+# Executar testes em modo visual (com navegador aberto)
+npx playwright test --ui
 ```
 
-### Executar com Retry
+## Relatórios e Evidências
 
-```bash
-# Executar com 3 tentativas
-npx playwright test --retries=3
-```
+Os seguintes arquivos são gerados automaticamente:
 
-## 📊 Relatórios e Screenshots
-
-- Screenshots são capturados automaticamente em caso de falha
-- Relatórios HTML são gerados em `playwright-report/`
-- Vídeos são gravados em caso de falha
-- Traces são capturados para debugging
-
-## 🐛 Debugging
-
-### Modo Debug
-```bash
-npm run test:debug
-```
-
-### Interface Gráfica
-```bash
-npm run test:ui
-```
-
-### Screenshots
-Os screenshots são salvos automaticamente em caso de falha na pasta `screenshots/`.
-
-## 📝 Adicionando Novos Testes
-
-### 1. Criar novo Page Object
-```typescript
-// src/pages/NewPage.ts
-import { Page } from '@playwright/test';
-import { BasePage } from './BasePage';
-
-export class NewPage extends BasePage {
-  constructor(page: Page) {
-    super(page);
-  }
-  
-  // Implementar métodos específicos da página
-}
-```
-
-### 2. Criar novo teste
-```typescript
-// src/tests/new.spec.ts
-import { test, expect } from '@playwright/test';
-import { NewPage } from '../pages/NewPage';
-
-test.describe('New Tests', () => {
-  test('New test case', async ({ page }) => {
-    const newPage = new NewPage(page);
-    // Implementar teste
-  });
-});
-```
-
-### 3. Criar nova feature BDD
-```gherkin
-# src/features/new.feature
-Feature: New Feature
-  Scenario: New scenario
-    Given some condition
-    When some action
-    Then some result
-```
-
-## 🤝 Contribuição
-
-1. Fork o projeto
-2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
-3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
-4. Push para a branch (`git push origin feature/AmazingFeature`)
-5. Abra um Pull Request
-
-## 📄 Licença
-
-Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
-
-## 📞 Suporte
-
-Para dúvidas ou suporte, entre em contato através dos issues do repositório.
-
----
-
-**Desenvolvido com ❤️ para automação de testes web**
+- **Screenshots**: `screenshots/` (capturados em caso de falha)
+- **Vídeos**: `videos/` (gravados em caso de falha)
+- **Traces**: `traces/` e `test-results/` (para debugging)
+- **Relatórios HTML**: `playwright-report/` e `reports/`
+- **Relatórios JSON/JUnit**: `test-results/`
