@@ -5,7 +5,7 @@ export class TestData {
   static readonly VALID_USERS = {
     STANDARD_USER: {
       username: 'automacaobackoffice@uorak.com',
-      password: 'Senha@12345'
+      password: 'Senha@1234'
     }
   };
 
